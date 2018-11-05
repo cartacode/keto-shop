@@ -1,25 +1,40 @@
 {
-  "name": "pwa-retail-shop",
-  "version": "0.1.0",
+  "name": "keto-shop-project",
+  "description": "Retail shop which is built as a Progressive Web app",
+  "keywords": [
+    "react",
+    "redux",
+    "saga"
+  ],
+  "version": "1.0.0",
+  "author": "it-avenger",
+  "license": "MIT",
   "private": true,
   "dependencies": {
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-scripts": "2.1.1"
+    "connected-react-router": "^5.0.0",
+    "material-ui": "^0.20.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "^1.1.1",
+    "redux": "^3.6.0",
+    "redux-form": "^7.3.0",
+    "redux-form-material-ui": "^4.3.2",
+    "redux-saga": "^0.16.0",
+    "validator": "^9.4.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.3.15",
+    "@storybook/addon-console": "^1.0.0",
+    "@storybook/react": "^3.3.15",
+    "storybook-addon-material-ui": "^0.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9001 -c .storybook"
+  }
 }
