@@ -12,6 +12,12 @@ note, using computed properties, `.sync`, CSS Grid, and `transition-group`.
 # install dependencies
 $ npm install # Or yarn
 
+# install material-ui
+$ npm install @material-ui/core
+
+# install icons in order to use prebuilt SVG Material icons
+$ npm install @material-ui/icons
+
 # serve with hot reload at localhost:3000
 $ npm run start
 
