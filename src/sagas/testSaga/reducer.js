@@ -13,6 +13,9 @@ const ACTION_HANDLERS = {
   },
   [action.INIT]: (state, action) => {
     return { ...state, ...action.payload }
+  },
+  [action.PRODUCTS]: (state, action) => {
+    return { ...state, ...action.payload }
   }
 }
 

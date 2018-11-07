@@ -6,6 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import MainPage from './Main';
 import ProductItem from '../components/ProductItem';
 
+import { connect } from 'react-redux';
+import { init, getProducts } from '../sagas/testSaga/saga';
+
 const publicURL = process.env.PUBLIC_URL;
 
 const styles = theme => ({
@@ -30,12 +33,15 @@ const styles = theme => ({
 
 
 class HomePage extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+
+    this.props.getProducts();
 	}
 
   render() {
   	const { classes } = this.props;
+    console.log('Data: ', this.props);
 
     return (
     	<div className={classes.root}>
@@ -73,4 +79,21 @@ class HomePage extends React.Component {
   }
 }
 
-export default withStyles(styles)(HomePage);
+const mapStatetoProps = state => {
+  return {
+    testSaga: state.testSaga
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    testInit: () => {
+      dispatch(init())
+    },
+    getProducts: () => {
+      dispatch(getProducts())
+    },
+  }
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(withStyles(styles)(HomePage));
