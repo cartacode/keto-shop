@@ -34,7 +34,7 @@ class ProductItem extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, data } = this.props;
 
     return (
       <Card className={classes.card}>
@@ -45,16 +45,16 @@ class ProductItem extends React.Component {
             component="h2"
             className={classes.productTitle}
           >
-            jacket1
+            { data.name }
           </Typography>
           <CardMedia
             className={classes.media}
-              image="/images/jacket1.png"
+              image={"/images/" + data.img}
             title="Contemplative Reptile"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              $49.99
+              { "$" + data.price }
             </Typography>
               <Button 
                 size="small" 
@@ -72,6 +72,7 @@ class ProductItem extends React.Component {
 
 ProductItem.propTypes = {
   classes: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ProductItem);
