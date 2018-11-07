@@ -44,6 +44,10 @@ const styles = theme =>({
   },
   toggleNavbar: {
     display: 'block',
+  },
+  logo: {
+    width: 50,
+    height: 50
   }
 });
 
@@ -87,6 +91,9 @@ class MenuAppBar extends React.Component {
             >
               <MenuIcon />
             </IconButton>
+            <div>
+              <img className={classes.logo} src="/images/logo.png" />
+            </div>
             <div className={classes.navbar}>
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 Man's

@@ -36,7 +36,7 @@ sagaMiddleware.run(sagas)
 ReactDOM.render(
   <MuiThemeProvider>
     <Provider store={store}>
-        <App />
+      <App />
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('root')
