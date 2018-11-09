@@ -18,9 +18,23 @@ const ACTION_HANDLERS = {
     return { ...state, ...action.payload }
   },
   [action.UPDATE_PRODUCTS]: (state, action) => {
-    let products = state.products.slice(1, 3);
+    let products = Object.assign([], state.allProducts);
+    products = products.filter((product) => {
+      if (product.price >= action.payload.filterPrice) {
+        return product;
+      }
+    })
+
     return { ...state, ...action.payload, products: products }
-  }
+  },
+  [action.SAVE_ITEM]: (state, action) => {
+    let products = JSON.parse(localStorage.getItem("cartItems"))
+    // let products = Object.assign([], state.cartItems);
+    products.push(action.payload.product);
+    localStorage.setItem("cartItems", JSON.stringify(products))
+    
+    return { ...state, ...action.payload, cartItems: products }
+  },
 }
 
 let defaultState = {}

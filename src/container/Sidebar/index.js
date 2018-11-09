@@ -67,19 +67,32 @@ const styles = {
 class Sidebar extends React.Component {
 	constructor(props) {
 		super(props);
+
+    this.state = {
+      currentFilterPrice: '0'
+    }
+
+    this._onChange = this._onChange.bind(this);
 	}
 
-  _onChange() {
-    this.props.onFilter();
+  _onChange(filterPrice) {
+    this.setState({ currentFilterPrice: filterPrice });
+    this.props.onFilter(parseFloat(filterPrice));
   }
 
   render() {
   	const { classes } = this.props;
+    const { currentFilterPrice } = this.state;
 
     return (
     	<Card className={"filter-sidebar " + classes.card}>
         <div className={classes.sidearea  + " callout"}>
-          <label htmlFor="pricerange" className={classes.label}>Highest Price: <span>$42,000</span></label>
+          <label 
+            htmlFor="pricerange" 
+            className={classes.label}
+          >
+            Current Price: <span>${currentFilterPrice}</span>
+          </label>
           <input 
             className="slider" 
             id="pricerange" 
@@ -87,7 +100,8 @@ class Sidebar extends React.Component {
             min="min" 
             max="max" 
             step="0.1"
-            onChange={() => this._onChange()}
+            value={ currentFilterPrice }
+            onChange={(e) => this._onChange(e.target.value)}
           />
           <span className={classes.min}>0</span>
           <span className={classes.max}>100</span>

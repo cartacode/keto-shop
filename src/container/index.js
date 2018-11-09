@@ -11,6 +11,7 @@ import { bindActionCreators } from "redux";
 
 import MainPage from './Main';
 import Sidebar from './Sidebar';
+import Header from '../components/Header';
 
 const publicURL = process.env.PUBLIC_URL;
 
@@ -46,28 +47,29 @@ class HomePage extends React.Component {
     this.props.getProductTests();
   }
 
-  _onFilter() {
-    console.log('filter change', this.props)
-    this.props.filter();
+  _onFilter(filterPrice) {
+    this.props.filter(filterPrice);
   }
 
   render() {
-  	const { classes, getProducts, testSaga } = this.props;
-    console.log('Data: ', this.props);
+  	const { classes, getProducts, products } = this.props;
 
     return (
-    	<div className={classes.root}>
-        <Grid container spacing={24} className={classes.container}>
-          <Grid item xs={12} className={classes.bannerImg}>
-          </Grid>
-          <Grid item xs={3}>
-            <Sidebar onFilter={this._onFilter}></Sidebar>
-          </Grid>
-          <Grid item xs={9}>
-            <MainPage data={testSaga.products}></MainPage>
-	        </Grid>
-    		</Grid>
-    	</div>
+      <div>
+        <Header />
+      	<div className={classes.root}>
+          <Grid container spacing={24} className={classes.container}>
+            <Grid item xs={12} className={classes.bannerImg}>
+            </Grid>
+            <Grid item xs={3}>
+              <Sidebar onFilter={this._onFilter}></Sidebar>
+            </Grid>
+            <Grid item xs={9}>
+              <MainPage data={products}></MainPage>
+  	        </Grid>
+      		</Grid>
+      	</div>
+      </div>
     );
   }
 }
@@ -75,23 +77,15 @@ class HomePage extends React.Component {
 const mapStatetoProps = state => {
   console.log('state: ', state)
   return {
-    testSaga: state.testSaga
+    products: state.testSaga.products
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getProductTests: () => dispatch({ type: actions.GET_PODUCTS }),
-    filter: () => dispatch({ type: actions.FILTER }),
+    filter: (filterPrice) => dispatch({ type: actions.FILTER, price: filterPrice }),
   }
 }
-
-
-// const mapDispatchToProps = dispatch => {
-//   return Object.assign(
-//     { dispatch: dispatch },
-//     bindActionCreators({getProducts}, dispatch)
-//   );
-// }
 
 export default connect(mapStatetoProps, mapDispatchToProps)(withStyles(styles)(HomePage));

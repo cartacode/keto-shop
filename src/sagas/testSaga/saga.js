@@ -103,8 +103,9 @@ const TMP_PRODUCTS = [
 
 let defaultState = {
   message: 'has not run',
-  products: []
-}
+  products: [],
+  cartItems: [],
+};
 
 function* init() {
   yield put({
@@ -113,6 +114,7 @@ function* init() {
       ...defaultState,
       message: 'has been run',
       products: [],
+      allProducts: [],
     }
   })
 }
@@ -124,19 +126,31 @@ function* getProducts() {
 			...defaultState,
       message: '',
 			products: TMP_PRODUCTS,
+      allProducts: TMP_PRODUCTS,
 		}
 	})
 }
 
-function* filter() {
-  let products = defaultState.products.slice(1, 3);
-  console.log('AAAA: ', products);
-
+function* filter(payload) {
   yield put({
     type: actions.UPDATE_PRODUCTS,
     payload: {
       ...defaultState,
-      message: '',
+      filterPrice: payload.price,
+    }
+  })
+}
+
+function* addItem(payload) {
+  let products = Object.assign([], defaultState.cartItems);
+  products.push(payload.product);
+
+  yield put({
+    type: actions.SAVE_ITEM,
+    payload: {
+      ...defaultState,
+      product: payload.product,
+      cartItems: products
     }
   })
 }
@@ -146,6 +160,7 @@ export default function* sagas() {
     yield takeLatest(actions.INIT, init),
     yield takeLatest(actions.GET_PODUCTS, getProducts),
     yield takeLatest(actions.FILTER, filter),
+    yield takeLatest(actions.ADD_ITEM, addItem),
   ]);
 
 }

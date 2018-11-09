@@ -15,6 +15,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
+import { withRouter, Link } from "react-router-dom";
+
 const styles = theme =>({
   root: {
     flexGrow: 1,
@@ -92,7 +94,9 @@ class MenuAppBar extends React.Component {
               <MenuIcon />
             </IconButton>
             <div>
-              <img className={classes.logo} src="/images/logo.png" />
+              <Link to="/">
+                <img className={classes.logo} src="/images/logo.png" />
+              </Link>
             </div>
             <div className={classes.navbar}>
               <Typography variant="h6" color="inherit" className={classes.grow}>
