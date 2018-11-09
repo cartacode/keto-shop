@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import reducers from './reducers'
 import createSagaMiddleware from 'redux-saga'
 
-import sagas from './sagas'
+import sagas from './sagas';
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import registerServiceWorker from './registerServiceWorker';

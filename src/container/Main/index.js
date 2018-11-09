@@ -34,18 +34,25 @@ class MainPage extends React.Component {
 
   render() {
   	const { classes, data } = this.props;
+  	let showProducts = [];
 
-  	const showProducts = data.map((item, key) => {
-  	  return (
-  	    <Grid item xs={4} key={key}>
-  	      <ProductItem className={classes.paper} data={item}></ProductItem>
-  	    </Grid>
-  	  )
-  	})
+  	if (data) {
+  		showProducts = data.map((item, key) => {
+  		  return (
+  		    <Grid item xs={4} key={key}>
+  		      <ProductItem className={classes.paper} data={item}></ProductItem>
+  		    </Grid>
+  		  )
+  		})
+  	}
+  	
 
     return (
     	<Grid container spacing={16}>
-        { showProducts }
+        { data 
+        		? showProducts
+        		: '' 
+        }
       </Grid>
     )
   }

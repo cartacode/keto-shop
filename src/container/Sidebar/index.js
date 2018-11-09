@@ -12,6 +12,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { init, filter } from '../../sagas/testSaga/saga';
+import * as actions from '../../sagas/testSaga/actions';
+
 
 const styles = {
   card: {
@@ -64,6 +69,10 @@ class Sidebar extends React.Component {
 		super(props);
 	}
 
+  _onChange() {
+    this.props.onFilter();
+  }
+
   render() {
   	const { classes } = this.props;
 
@@ -77,7 +86,8 @@ class Sidebar extends React.Component {
             type="range"
             min="min" 
             max="max" 
-            step="0.1" 
+            step="0.1"
+            onChange={() => this._onChange()}
           />
           <span className={classes.min}>0</span>
           <span className={classes.max}>100</span>
@@ -97,7 +107,29 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
+  onFilter: PropTypes.func.isRequired,
 };
 
+const mapStatetoProps = state => {
+  console.log('state: ', state)
+  return {
+    testSaga: state.testSaga
+  }
+}
 
-export default withStyles(styles)(Sidebar);
+const mapDispatchToProps = dispatch => {
+  return {
+    filter: () => dispatch({ type: actions.FILTER })
+  }
+}
+
+
+// const mapDispatchToProps = dispatch => {
+//   return Object.assign(
+//     { dispatch: dispatch },
+//     bindActionCreators({getProducts}, dispatch)
+//   );
+// }
+
+
+export default connect(mapStatetoProps, mapDispatchToProps)(withStyles(styles)(Sidebar));

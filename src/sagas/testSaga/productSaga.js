@@ -1,4 +1,4 @@
-import { put, takeLatest, take, takeEvery, all, fork } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 
 import * as actions from './actions'
 
@@ -106,18 +106,7 @@ let defaultState = {
   products: []
 }
 
-function* init() {
-  yield put({
-    type: actions.SET_STATE,
-    payload: {
-      ...defaultState,
-      message: 'has been run',
-      products: [],
-    }
-  })
-}
-
-function* getProducts() {
+export function* getProducts() {
 	yield put({
 		type: actions.PRODUCTS,
 		payload: {
@@ -128,24 +117,6 @@ function* getProducts() {
 	})
 }
 
-function* filter() {
-  let products = defaultState.products.slice(1, 3);
-  console.log('AAAA: ', products);
-
-  yield put({
-    type: actions.UPDATE_PRODUCTS,
-    payload: {
-      ...defaultState,
-      message: '',
-    }
-  })
-}
-
-export default function* sagas() {
-  yield all([
-    yield takeLatest(actions.INIT, init),
-    yield takeLatest(actions.GET_PODUCTS, getProducts),
-    yield takeLatest(actions.FILTER, filter),
-  ]);
-
+export default function* productsagas() {
+  yield takeLatest(actions.PRODUCTS, getProducts)
 }

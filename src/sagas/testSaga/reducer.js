@@ -3,7 +3,7 @@ import * as action from './actions'
 export const init = () => {
   return {
     type: action.INIT,
-    payload: {}
+    payload: {},
   }
 }
 
@@ -16,6 +16,10 @@ const ACTION_HANDLERS = {
   },
   [action.PRODUCTS]: (state, action) => {
     return { ...state, ...action.payload }
+  },
+  [action.UPDATE_PRODUCTS]: (state, action) => {
+    let products = state.products.slice(1, 3);
+    return { ...state, ...action.payload, products: products }
   }
 }
 
