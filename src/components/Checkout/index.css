@@ -1,0 +1,22 @@
+.StripeCheckout {
+	background: #f5481a !important;
+	border-radius: 45px !important;
+	box-shadow: 0px 3px 8px #f5481a !important;
+}
+
+.StripeCheckout span {
+	content: none;
+	background: #f5481a !important;
+	width: 326px;
+	height: 40px !important;
+	line-height: 0 !important;
+	text-indent: -9999px;
+}
+
+.StripeCheckout span:after {
+	content: 'Pay with Credit Card';
+    display: block;
+    text-indent: 0px;
+    line-height: 2;
+    font-size: 20px;
+}

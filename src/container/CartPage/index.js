@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 
 import { connect } from 'react-redux';
 import * as actions from '../../sagas/testSaga/actions';
 import { bindActionCreators } from "redux";
+import { withRouter, Link } from "react-router-dom";
+
 import Header from '../../components/Header';
+import Checkout from '../../components/Checkout';
 
 
 const styles = theme => ({
@@ -56,15 +57,20 @@ class CartPage extends React.Component {
 		super(props);
 
     this.state = {
-      cartTotal: 1,
       success: false,
     }
-	}
+  }
+  
+  onCheckoutSuccess() {
+    console.log('Cart Page Succes');
+    this.setState({ success: true });
+  }
 
   render() {
   	const { classes, cartItems } = this.props;
-    const { cartTotal, success } = this.state;
+    const { success } = this.state;
     let showCartItems = [];
+    let cartTotal = 0;
 
     if (cartItems) {
       showCartItems = cartItems.map((item) => {
@@ -79,6 +85,8 @@ class CartPage extends React.Component {
           </div>
         );
       });
+
+      cartTotal = showCartItems.length;
     }
 
     return (
@@ -94,6 +102,14 @@ class CartPage extends React.Component {
                   <div className={classes.total}>
                     <h3>Total: {showCartItems.length}</h3>
                   </div>
+                  <Checkout
+                    className="payment-button"
+                    name={"Keto Retail Shop"}
+                    description={"Keto Retail shop"}
+                    image={require("../../styles/images/stripe.png")} 
+                    amount={12}
+                    onSuccess={this.onCheckoutSuccess.bind(this)}
+                  />
                 </div>
               )
             : cartTotal === 0 && success === false 
@@ -101,7 +117,7 @@ class CartPage extends React.Component {
                     <div className={classes.empty}>
                       <h1>Cart</h1>
                       <h3>Your cart is empty.</h3>
-                      <a href="#"><button>Fill er up!</button></a>
+                      <Link to="/"><button>Back dashboard</button></Link>
                     </div>
                   )
 
