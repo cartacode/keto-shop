@@ -13,7 +13,7 @@ const Checkout = ({
 }) => {
 
 	const Success = data => {
-		onSuccess(data)
+		onSuccess(data);
 	};
 		
 	const CURRENCY = "USD";

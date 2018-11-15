@@ -5,6 +5,9 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import ProductItem from '../../components/ProductItem';
 
+import Pusher from 'pusher-js'
+
+
 
 const styles = theme => ({
   root: {
@@ -31,6 +34,19 @@ class MainPage extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
+  componentDidMount() {
+    this.pusher = new Pusher('dbda48f2063497dda199', {
+      cluster: 'ap2',
+      encrypted: true
+    });
+    this.prices = this.pusher.subscribe('coin-prices-development');
+
+
+    this.prices.bind('prices', (product) => {
+      console.log('producttt: ', product)
+    }, this)
+  }
 
   render() {
   	const { classes, data } = this.props;

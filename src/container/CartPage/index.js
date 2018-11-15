@@ -71,15 +71,18 @@ class CartPage extends React.Component {
     const { success } = this.state;
     let showCartItems = [];
     let cartTotal = 0;
+    let totalPrice = 0;
 
     if (cartItems) {
       showCartItems = cartItems.map((item) => {
+        totalPrice += item.price;
+
         return (
           <div className={classes.cartitems}>
             <div className={classes.carttext}>
               <h4>{ item.name }</h4>
               <p>${item.price} x 2</p>
-              <p>Total for this item: <strong>${item.price} x 2</strong></p>
+              <p>Total for this item: <strong>${item.price} x 1</strong></p>
             </div>
             <img className={classes.cartimg} src={"/images/" + item.img} alt="Image" />
           </div>
@@ -100,14 +103,15 @@ class CartPage extends React.Component {
                   <h1>Cart</h1>
                   { showCartItems }
                   <div className={classes.total}>
-                    <h3>Total: {showCartItems.length}</h3>
+                    <h3>Total: {cartTotal}</h3>
+                    <h3>Total Price: ${totalPrice}</h3>
                   </div>
                   <Checkout
                     className="payment-button"
                     name={"Keto Retail Shop"}
                     description={"Keto Retail shop"}
-                    image={require("../../styles/images/stripe.png")} 
-                    amount={12}
+                    image={require("./stripe.png")} 
+                    amount={totalPrice}
                     onSuccess={this.onCheckoutSuccess.bind(this)}
                   />
                 </div>
