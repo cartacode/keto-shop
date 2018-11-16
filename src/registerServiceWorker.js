@@ -18,8 +18,12 @@ const isLocalhost = Boolean(
     )
 );
 
+
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
+    if (!'PushManager' in window) {
+      alert('push notification is not available')
+    }
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -30,6 +34,7 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
+      console.log("@@: ", `${process.env.PUBLIC_URL}/service-worker.js`)
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
@@ -53,6 +58,7 @@ export default function register() {
 }
 
 function registerValidSW(swUrl) {
+  
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
@@ -75,6 +81,7 @@ function registerValidSW(swUrl) {
           }
         };
       };
+
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);

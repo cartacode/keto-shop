@@ -65,7 +65,11 @@ class HomePage extends React.Component {
               <Sidebar onFilter={this._onFilter}></Sidebar>
             </Grid>
             <Grid item xs={9}>
-              <MainPage data={products}></MainPage>
+              {
+                products 
+                  ? <MainPage data={products}></MainPage>
+                  : ''
+              }
   	        </Grid>
       		</Grid>
       	</div>
