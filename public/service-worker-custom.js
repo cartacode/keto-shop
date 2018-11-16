@@ -1,17 +1,24 @@
-self.addEventListener('push', function(event) {
-  console.log('Received push');
-  
-  if (event.data) {
-    const dataText = event.data.text();
-    notificationTitle = 'Received Payload';
-    notificationOptions.body = `Push data: '${dataText}'`;
+importScripts('https://js.pusher.com/4.2/pusher.worker.min.js');
 
-    event.waitUntil(
-      Promise.all([
-        self.registration.showNotification(
-          notificationTitle, notificationOptions),
-        self.analytics.trackEvent('push-received'),
-      ])
-    );
-  }
+var pusher = new Pusher('dbda48f2063497dda199',{
+	cluster: 'ap2',
+	encrypted: true
+});
+console.log('custom-service-worker is registered')
+
+
+
+
+const prices = pusher.subscribe('coin-prices-development');
+
+prices.bind('prices', function(product) {
+	console.log('producttt AA: ', product)
+	if (Notification.permission == 'granted') {
+	    
+	      self.registration.showNotification('New Product Added', {
+		    body: JSON.stringify(product),
+			tag: Math.random().toString(36).substring(7),
+			requireInteraction: true,
+		  });
+	}
 })
