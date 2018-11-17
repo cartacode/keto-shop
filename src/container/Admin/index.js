@@ -8,6 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { connect } from 'react-redux';
+import { init, getProducts, filter } from '../../sagas/testSaga/saga';
+import * as actions from '../../sagas/testSaga/actions';
+import { bindActionCreators } from "redux";
+
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -48,14 +53,36 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-class CustomizedTable extends React.Component {
+class Admin extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  return () {
-    const { classes } = this.props;
+  componentDidMount() {
+    this.props.getProductTests();
+  }
 
+  render () {
+    const { classes, products } = this.props;
+    console.log('this.props: ', this.props);
+
+    let showTbody = [];
+    if (products) {
+      showTbody = products.map((row,idx) => {
+        return (
+          <TableRow className={classes.row} key={idx}>
+            <CustomTableCell component="th" scope="row">
+              {row.name}
+            </CustomTableCell>
+            <CustomTableCell numeric>{row.title}</CustomTableCell>
+            <CustomTableCell numeric>{row.price}</CustomTableCell>
+            <CustomTableCell numeric>{row.category}</CustomTableCell>
+            <CustomTableCell numeric>{row.img}</CustomTableCell>
+          </TableRow>
+        );
+      })
+    }
+    
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
@@ -68,29 +95,36 @@ class CustomizedTable extends React.Component {
               <CustomTableCell numeric>Protein (g)</CustomTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows.map(row => {
-              return (
-                <TableRow className={classes.row} key={row.id}>
-                  <CustomTableCell component="th" scope="row">
-                    {row.name}
-                  </CustomTableCell>
-                  <CustomTableCell numeric>{row.calories}</CustomTableCell>
-                  <CustomTableCell numeric>{row.fat}</CustomTableCell>
-                  <CustomTableCell numeric>{row.carbs}</CustomTableCell>
-                  <CustomTableCell numeric>{row.protein}</CustomTableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          {
+            products 
+              ? (
+                  <TableBody>
+                    { showTbody }
+                  </TableBody>
+                )
+              : (<TableBody><TableRow></TableRow></TableBody>)
+          }
         </Table>
       </Paper>
     );
   } 
 }
 
-CustomizedTable.propTypes = {
+Admin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CustomizedTable);
+const mapStatetoProps = state => {
+  return {
+    products: state.testSaga.products
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProductTests: () => dispatch({ type: actions.GET_PODUCTS }),
+    filter: (filterPrice) => dispatch({ type: actions.FILTER, price: filterPrice }),
+  }
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(withStyles(styles)(Admin));

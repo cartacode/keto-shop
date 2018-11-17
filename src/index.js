@@ -7,7 +7,7 @@ import createHistory from 'history/createBrowserHistory';
 import { 
   connectRouter
 } from 'connected-react-router';
-import { BrowserRouter as Router, HashRouter as HRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 
 import { Provider } from 'react-redux'
