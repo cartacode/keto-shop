@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, HashRouter as HRouter, Route, Switch } from 'react-router-dom';
 import HomePage from '../container';
 import CartPage from '../container/CartPage';
+import Admin from '../container/Admin';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 
@@ -14,6 +15,7 @@ export default class Routes extends Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/cart" component={CartPage} />
+            <Route exact path="/admin" component={Admin} />
           </Switch>
         </Router>
       </div>
