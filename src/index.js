@@ -21,6 +21,7 @@ import sagas from './sagas';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import registerServiceWorker from './registerServiceWorker';
 
+import Routes from './routes';
 
 export const history = createHistory();
 const connectRouterHistory = connectRouter(history);
@@ -52,7 +53,7 @@ sagaMiddleware.run(sagas)
 ReactDOM.render(
   <MuiThemeProvider>
     <Provider store={store}>
-        <App />
+        <Routes store={store} history={history} />
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('root')

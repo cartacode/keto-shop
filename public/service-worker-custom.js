@@ -4,15 +4,10 @@ var pusher = new Pusher('dbda48f2063497dda199',{
 	cluster: 'ap2',
 	encrypted: true
 });
-console.log('custom-service-worker is registered')
-
-
-
 
 const prices = pusher.subscribe('coin-prices-development');
 
 prices.bind('prices', function(product) {
-	console.log('producttt AA: ', product)
 	if (Notification.permission == 'granted') {
 	    
 	      self.registration.showNotification('New Product Added', {

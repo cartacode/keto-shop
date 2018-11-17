@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, HashRouter as HRouter, Route, Switch } from 'react-router-dom';
 import HomePage from '../container';
 import CartPage from '../container/CartPage';
+import { syncHistoryWithStore } from 'react-router-redux';
+
 
 export default class Routes extends Component {
   render() {
-    const { history } = this.props;
+    const { history, store } = this.props;
     return (
-      <div>
+      <div className="App">
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={HomePage} />
