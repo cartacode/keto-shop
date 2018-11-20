@@ -46,9 +46,7 @@ if (workbox) {
   });
 
   workbox.routing.registerRoute(/\.(?:js|css|html)$/, args => {
-		console.log('arg: ', args);
 		return postHandler.handle(args).then(response => {
-			console.log('response: ', response);
 			if (!response) {
 			  return caches.match('pages/offline.html');
 			} else if (response.status === 404) {
@@ -69,7 +67,6 @@ if (workbox) {
 
 	workbox.routing.registerRoute('/cart', args => {
 		return articleHandler.handle(args).then(response => {
-			console.log('response: ', response);
 			if (!response) {
 			  return caches.match('pages/offline.html');
 			} else if (response.status === 404) {
@@ -78,18 +75,6 @@ if (workbox) {
 			return response;
 		});
 	});
-
-	// workbox.routing.registerRoute('/', args => {
-	// 	return articleHandler.handle(args).then(response => {
-	// 		console.log('response: ', response);
-	// 		if (!response) {
-	// 		  return caches.match('pages/offline.html');
-	// 		} else if (response.status === 404) {
-	// 		  return caches.match('pages/404.html');
-	// 		}
-	// 		return response;
-	// 	});
-	// });
 
 } else {
 	console.log(`Boo! Workbox didn't load 😬`);

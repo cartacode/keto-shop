@@ -4,8 +4,6 @@ how a number of concepts work in React. Progressive Web App with React for produ
 note, using computed properties, `.sync`, CSS Grid, and `transition-group`.
 
 
-![React stripe sample shop](https://image.ibb.co/hYi7nm/shop_demo.gif "React Stripe Sample Shop")
-
 ## Build Setup
 
 ```bash
