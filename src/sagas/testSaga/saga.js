@@ -1,9 +1,9 @@
-import { put, takeLatest, take, takeEvery, all, fork } from 'redux-saga/effects'
+import { put, call, takeLatest, take, takeEvery, all, fork } from 'redux-saga/effects'
 
 import * as actions from './actions'
-// import {
-//   apiWrapper
-// } from './apiCreators';
+import {
+  getProductsApi
+} from './apiCreators';
 
 const TMP_PRODUCTS = [
   {
@@ -127,13 +127,20 @@ function callProductAPI() {
 }
 
 function* getProducts() {
+  const data = yield call(getProductsApi);
+  let products = [];
+
+  if (data && data.success && data.success == true) {
+    products = data.data;
+  }
+  
 	yield put({
 		type: actions.PRODUCTS,
 		payload: {
 			...defaultState,
       message: '',
-			products: TMP_PRODUCTS,
-      allProducts: TMP_PRODUCTS,
+			products: products,
+      allProducts: products,
 		}
 	})
 }
