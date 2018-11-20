@@ -1,6 +1,9 @@
 import { put, takeLatest, take, takeEvery, all, fork } from 'redux-saga/effects'
 
 import * as actions from './actions'
+import {
+  getProductsApi
+} from './apiCreators';
 
 const TMP_PRODUCTS = [
   {
@@ -120,6 +123,8 @@ function* init() {
 }
 
 function* getProducts() {
+  const { data, err } = getProductsApi();
+  console.log('DD ERR: ', data, err);
 	yield put({
 		type: actions.PRODUCTS,
 		payload: {
@@ -158,7 +163,7 @@ function* addItem(payload) {
 export default function* sagas() {
   yield all([
     yield takeLatest(actions.INIT, init),
-    yield takeLatest(actions.GET_PODUCTS, getProducts),
+    yield takeLatest(actions.GET_PRODUCTS, getProducts),
     yield takeLatest(actions.FILTER, filter),
     yield takeLatest(actions.ADD_ITEM, addItem),
   ]);

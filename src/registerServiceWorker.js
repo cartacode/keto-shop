@@ -35,8 +35,8 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
-      console.log("@@: ", `${process.env.PUBLIC_URL}/service-worker.js`)
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      console.log("@@: ", `${process.env.PUBLIC_URL}/service-worker-custom.js`)
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker-custom.js`;
       Notification.requestPermission(function(status) {
           console.log('Notification permission status:', status);
       });

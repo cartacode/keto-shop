@@ -15,6 +15,11 @@ const ACTION_HANDLERS = {
     return { ...state, ...action.payload }
   },
   [action.PRODUCTS]: (state, action) => {
+    console.log('reducer PRODUCTS: ', action);
+    return { ...state, ...action.payload }
+  },
+  [action.SAVE_PRODUCTS]: (state, action) => {
+    console.log('reducer SAVE_PRODUCTS: ', action);
     return { ...state, ...action.payload }
   },
   [action.UPDATE_PRODUCTS]: (state, action) => {

@@ -71,13 +71,13 @@ class Admin extends React.Component {
       showTbody = products.map((row,idx) => {
         return (
           <TableRow className={classes.row} key={idx}>
-            <CustomTableCell component="th" scope="row">
-              {row.name}
+            <CustomTableCell>{row.name}</CustomTableCell>
+            <CustomTableCell>{row.price}</CustomTableCell>
+            <CustomTableCell>{row.category}</CustomTableCell>
+            <CustomTableCell>{row.img}</CustomTableCell>
+            <CustomTableCell>
+              <button onClick={() => {}}>Delete</button>
             </CustomTableCell>
-            <CustomTableCell numeric>{row.title}</CustomTableCell>
-            <CustomTableCell numeric>{row.price}</CustomTableCell>
-            <CustomTableCell numeric>{row.category}</CustomTableCell>
-            <CustomTableCell numeric>{row.img}</CustomTableCell>
           </TableRow>
         );
       })
@@ -87,12 +87,12 @@ class Admin extends React.Component {
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
-            <TableRow>
-              <CustomTableCell>Dessert (100g serving)</CustomTableCell>
-              <CustomTableCell numeric>Calories</CustomTableCell>
-              <CustomTableCell numeric>Fat (g)</CustomTableCell>
-              <CustomTableCell numeric>Carbs (g)</CustomTableCell>
-              <CustomTableCell numeric>Protein (g)</CustomTableCell>
+            <TableRow className={classes.row}>
+              <CustomTableCell>Title</CustomTableCell>
+              <CustomTableCell>Price</CustomTableCell>
+              <CustomTableCell>Category</CustomTableCell>
+              <CustomTableCell>img</CustomTableCell>
+              <CustomTableCell>Delete</CustomTableCell>
             </TableRow>
           </TableHead>
           {
@@ -122,7 +122,7 @@ const mapStatetoProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductTests: () => dispatch({ type: actions.GET_PODUCTS }),
+    getProductTests: () => dispatch({ type: actions.PRODUCTS }),
     filter: (filterPrice) => dispatch({ type: actions.FILTER, price: filterPrice }),
   }
 }

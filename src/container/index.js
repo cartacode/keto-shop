@@ -79,7 +79,6 @@ class HomePage extends React.Component {
 }
 
 const mapStatetoProps = state => {
-  console.log('state: ', state)
   return {
     products: state.testSaga.products
   }
@@ -87,7 +86,7 @@ const mapStatetoProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductTests: () => dispatch({ type: actions.GET_PODUCTS }),
+    getProductTests: () => dispatch({ type: actions.GET_PRODUCTS }),
     filter: (filterPrice) => dispatch({ type: actions.FILTER, price: filterPrice }),
   }
 }
