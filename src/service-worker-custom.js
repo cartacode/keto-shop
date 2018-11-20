@@ -22,10 +22,9 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox
 
 if (workbox) {
 	console.log(`Yay! Workbox is loaded 🎉`);
-
-	workbox.precaching.precacheAndRoute([]);
+	  workbox.precaching.precacheAndRoute([]);
 	  workbox.routing.registerRoute(
-		/(.*)articles(.*)\.(?:png|gif|jpg)/,
+		/.(?:png|gif|jpg)/,
 		workbox.strategies.cacheFirst({
 		  cacheName: 'images-cache',
 		  plugins: [
@@ -37,17 +36,19 @@ if (workbox) {
 		})
 	  );
 
-	  const articleHandler = workbox.strategies.networkFirst({
-		cacheName: 'articles-cache',
+	const postHandler = workbox.strategies.networkFirst({
+		cacheName: 'posts-cache',
 		plugins: [
 		  new workbox.expiration.Plugin({
 			maxEntries: 50,
 		  })
 		]
-	  });
+  });
 
-	  workbox.routing.registerRoute('/cart', args => {
-		return articleHandler.handle(args).then(response => {
+  workbox.routing.registerRoute(/\.(?:js|css|html)$/, args => {
+		console.log('arg: ', args);
+		return postHandler.handle(args).then(response => {
+			console.log('response: ', response);
 			if (!response) {
 			  return caches.match('pages/offline.html');
 			} else if (response.status === 404) {
@@ -55,7 +56,40 @@ if (workbox) {
 			}
 			return response;
 		});
-	  });
+  });
+
+  const articleHandler = workbox.strategies.networkFirst({
+	cacheName: 'articles-cache',
+	plugins: [
+	  new workbox.expiration.Plugin({
+		maxEntries: 50,
+	  })
+	]
+  });
+
+	workbox.routing.registerRoute('/cart', args => {
+		return articleHandler.handle(args).then(response => {
+			console.log('response: ', response);
+			if (!response) {
+			  return caches.match('pages/offline.html');
+			} else if (response.status === 404) {
+			  return caches.match('pages/404.html');
+			}
+			return response;
+		});
+	});
+
+	// workbox.routing.registerRoute('/', args => {
+	// 	return articleHandler.handle(args).then(response => {
+	// 		console.log('response: ', response);
+	// 		if (!response) {
+	// 		  return caches.match('pages/offline.html');
+	// 		} else if (response.status === 404) {
+	// 		  return caches.match('pages/404.html');
+	// 		}
+	// 		return response;
+	// 	});
+	// });
 
 } else {
 	console.log(`Boo! Workbox didn't load 😬`);
