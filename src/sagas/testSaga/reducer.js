@@ -15,14 +15,13 @@ const ACTION_HANDLERS = {
     return { ...state, ...action.payload }
   },
   [action.PRODUCTS]: (state, action) => {
-    console.log('reducer PRODUCTS: ', action);
     return { ...state, ...action.payload }
   },
   [action.SAVE_PRODUCTS]: (state, action) => {
-    console.log('reducer SAVE_PRODUCTS: ', action);
     return { ...state, ...action.payload }
   },
   [action.UPDATE_PRODUCTS]: (state, action) => {
+    console.log('reducer update_PRODUCTS: ', action);
     let products = Object.assign([], state.allProducts);
     products = products.filter((product) => {
       if (product.price >= action.payload.filterPrice) {
@@ -33,10 +32,10 @@ const ACTION_HANDLERS = {
     return { ...state, ...action.payload, products: products }
   },
   [action.SAVE_ITEM]: (state, action) => {
-    let products = JSON.parse(localStorage.getItem("cartItems"))
+    console.log('reducer SAVE_PRODUCTS: ', action, state);
+    let products = state.cartItems;
     // let products = Object.assign([], state.cartItems);
     products.push(action.payload.product);
-    localStorage.setItem("cartItems", JSON.stringify(products))
     
     return { ...state, ...action.payload, cartItems: products }
   },

@@ -13,9 +13,13 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 import Menu from '@material-ui/core/Menu';
 
 import { withRouter, Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import Pusher from 'pusher-js'
 
 const styles = theme =>({
   root: {
@@ -53,33 +57,64 @@ const styles = theme =>({
   }
 });
 
-class MenuAppBar extends React.Component {
-  state = {
-    auth: true,
-    anchorEl: null,
-    menuOpen: false,
-  };
 
-  handleChange = event => {
+class MenuAppBar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      auth: true,
+      open: false,
+      anchorEl: null,
+      menuOpen: false,
+      newProducts: []
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('pro chagne: ', nextProps)
+  }
+
+  componentDidMount() {
+    const self = this;
+    let { newProducts } = this.state;
+
+    this.pusher = new Pusher('dbda48f2063497dda199', {
+      cluster: 'ap2',
+      encrypted: true
+    });
+
+    this.prices = this.pusher.subscribe('coin-prices-development');
+
+
+    this.prices.bind('prices', (product) => {
+      newProducts.push(product);
+      console.log('new data: ', product, newProducts)
+      self.setState({ newProducts: newProducts });
+    }, this)
+  }
+  
+
+  handleChange(event) {
     this.setState({ auth: event.target.checked });
   };
 
-  handleMenu = event => {
+  handleMenu(event) {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleClose() {
     this.setState({ anchorEl: null });
   };
 
-  handleToogleNavbar = () => {
+  handleToogleNavbar() {
     this.setState({ menuOpen: !this.state.menuOpen });
   }
 
   render() {
     const { classes } = this.props;
     const { auth, anchorEl, menuOpen } = this.state;
-    const open = Boolean(anchorEl);
+    console.log('Header: ', this.state)
 
     return (
       <div className={classes.root}>
@@ -112,11 +147,46 @@ class MenuAppBar extends React.Component {
             {/* Dropdown Navbar Begin */}
             {auth && (
               <div>
-                <IconButton color="inherit">
-                  <Badge badgeContent={4} color="secondary">
+                <IconButton
+                  color="inherit"
+                  aria-label="More"
+                  aria-owns={open ? 'long-menu' : undefined}
+                  aria-haspopup="true"
+                  onClick={(event) => {
+                    this.setState({ 
+                      anchorEl: event.currentTarget
+                    })
+                  }}
+                >
+                  <Badge badgeContent={this.state.newProducts.length} color="secondary">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
+                <Menu
+                  id="long-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={() => this.setState({ anchorEl: null })}
+                  PaperProps={{
+                    style: {
+                      maxHeight: 48 * 4.5,
+                      width: 200,
+                    },
+                  }}
+                >
+                  (
+                    {
+                      this.state.newProducts.map((item) => {
+                        return (
+                          <MenuItem>
+                            <div>{item.product.name}</div>
+                            <div>{item.product.price}</div>
+                          </MenuItem>
+                        )
+                      })
+                    }
+                  )
+                </Menu>
               </div>
             )}
           {/* Dropdown Navbar End */}
@@ -142,6 +212,16 @@ class MenuAppBar extends React.Component {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  products: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+
+const mapStatetoProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(withRouter(withStyles(styles)(MenuAppBar)));

@@ -8,10 +8,12 @@ import { connect } from 'react-redux';
 import { init, getProducts, filter } from '../sagas/testSaga/saga';
 import * as actions from '../sagas/testSaga/actions';
 import { bindActionCreators } from "redux";
+import { withRouter, Link } from "react-router-dom";
 
 import MainPage from './Main';
 import Sidebar from './Sidebar';
 import Header from '../components/Header';
+
 
 const publicURL = process.env.PUBLIC_URL;
 
@@ -40,11 +42,19 @@ class HomePage extends React.Component {
 	constructor(props) {
 		super(props);
 
+    this.state = {
+      newProducts: []
+    }
+
     this._onFilter = this._onFilter.bind(this);
 	}
 
   componentWillMount() {
     this.props.getProductTests();
+  }
+
+  componentDidMount() {
+    const self = this;
   }
 
   _onFilter(filterPrice) {
@@ -56,7 +66,7 @@ class HomePage extends React.Component {
 
     return (
       <div>
-        <Header />
+        <Header products={[]} />
       	<div className={classes.root}>
           <Grid container spacing={24} className={classes.container}>
             <Grid item xs={12} className={classes.bannerImg}>

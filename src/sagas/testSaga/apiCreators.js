@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:8080'
-const apiWrapper = (url, method='GET', data=null) => {
+export const apiWrapper = (url, method='GET', data=null) => {
 	return new Promise((resolve, reject) => {
 		// let fetchOptions = {
 		// 	method: method,
@@ -17,18 +17,9 @@ const apiWrapper = (url, method='GET', data=null) => {
 
 
 		fetch(url)
-			.then((res) => {
-				console.log('res: res: ')
-				return res.json()
-			})
-			.then((data) => {
-				console.log('data: data: ', data)
-				resolve(data)
-			})
-			.catch((err) => { 
-				console.log('err: err: ', err)
-				reject(err)
-			})
+			.then((res) => res.json())
+			.then((data) => resolve(data))
+			.catch((err) => reject(err));
 	});
 	
 }

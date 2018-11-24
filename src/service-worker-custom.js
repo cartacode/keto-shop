@@ -1,4 +1,6 @@
 importScripts('https://js.pusher.com/4.2/pusher.worker.min.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js');
+
 
 var pusher = new Pusher('dbda48f2063497dda199',{
 	cluster: 'ap2',
@@ -8,17 +10,14 @@ var pusher = new Pusher('dbda48f2063497dda199',{
 const prices = pusher.subscribe('coin-prices-development');
 
 prices.bind('prices', function(product) {
-	if (Notification.permission == 'granted') {
 	    
-	      self.registration.showNotification('New Product Added', {
-		    body: JSON.stringify(product),
-			tag: Math.random().toString(36).substring(7),
-			requireInteraction: true,
-		  });
-	}
+	self.registration.showNotification('New Product Added', {
+	    body: JSON.stringify(product),
+		tag: Math.random().toString(36).substring(7),
+		requireInteraction: true,
+	});
 })
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js');
 
 if (workbox) {
 	console.log(`Yay! Workbox is loaded 🎉`);

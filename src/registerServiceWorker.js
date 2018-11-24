@@ -37,9 +37,12 @@ export default function register() {
     window.addEventListener('load', () => {
       console.log("@@: ", `${process.env.PUBLIC_URL}/service-worker-custom.js`)
       const swUrl = `${process.env.PUBLIC_URL}/service-worker-custom.js`;
-      Notification.requestPermission(function(status) {
-          console.log('Notification permission status:', status);
-      });
+      if (Notification.permission === 'default') {
+        Notification.requestPermission(function(status) {
+            console.log('Notification permission status:', status);
+        });
+      }
+      
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.

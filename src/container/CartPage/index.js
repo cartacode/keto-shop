@@ -62,7 +62,6 @@ class CartPage extends React.Component {
   }
   
   onCheckoutSuccess() {
-    console.log('Cart Page Succes');
     this.setState({ success: true });
   }
 
@@ -75,7 +74,7 @@ class CartPage extends React.Component {
 
     if (cartItems) {
       showCartItems = cartItems.map((item) => {
-        totalPrice += item.price;
+        totalPrice += parseFloat(item.price);
 
         return (
           <div className={classes.cartitems}>
@@ -94,7 +93,7 @@ class CartPage extends React.Component {
 
     return (
       <div>
-        <Header />
+        <Header products={[]} />
       	<div className={"capsule " + classes.cart}>
           { 
             cartTotal > 0 ?
