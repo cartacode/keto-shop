@@ -75,6 +75,32 @@ if (workbox) {
 		});
 	});
 
+	// Background sync
+	// const bgSyncPlugin = new workbox.backgroundSync.Plugin('product', {
+	//   maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+	// });
+
+	// workbox.routing.registerRoute(
+	//   'http://localhost:8080/products',
+	//   workbox.strategies.networkOnly({
+	//     plugins: [bgSyncPlugin]
+	//   }),
+	//   'POST'
+	// );
+
+	const queue = new workbox.backgroundSync.Queue('myQueueName');
+
+	self.addEventListener('fetch', (event) => {
+	  // Clone the request to ensure it's save to read when
+	  // adding to the Queue.
+	  const promiseChain = fetch(event.request.clone())
+	  .catch((err) => {
+	      return queue.addRequest(event.request);
+	  });
+
+	  event.waitUntil(promiseChain);
+	});
+
 } else {
 	console.log(`Boo! Workbox didn't load 😬`);
 }

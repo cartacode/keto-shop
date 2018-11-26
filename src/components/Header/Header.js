@@ -150,7 +150,7 @@ class MenuAppBar extends React.Component {
                 <IconButton
                   color="inherit"
                   aria-label="More"
-                  aria-owns={open ? 'long-menu' : undefined}
+                  aria-owns={this.state.open ? 'long-menu' : undefined}
                   aria-haspopup="true"
                   onClick={(event) => {
                     this.setState({ 
@@ -165,7 +165,7 @@ class MenuAppBar extends React.Component {
                 <Menu
                   id="long-menu"
                   anchorEl={anchorEl}
-                  open={open}
+                  open={this.state.open}
                   onClose={() => this.setState({ anchorEl: null })}
                   PaperProps={{
                     style: {
